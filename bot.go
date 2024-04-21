@@ -25,6 +25,7 @@ const (
 	CB_ROUTE_LIST_PREV       = "_list_prev"
 	CB_ROUTE_LIST_NEXT       = "_list_next"
 	CB_ROUTE_SHOW            = "_show"
+	CB_ROUTE_TAG_SHOW        = "_show_by_tag"
 	CB_ROUTE_NEW             = "_new"
 	CB_ROUTE_EDIT            = "_edit_"
 	CB_ROUTE_EDITING         = "_editing"
@@ -277,9 +278,9 @@ func cbShow(update tg.UpdateResult, bot *tg.TelegramBot) {
 		log.ERROR("user not found")
 		return
 	}
-	var _data string
+	var cb string
 	var noteId int64
-	_, err := fmt.Sscan(update.CallbackQuery.Data, &_data, &noteId)
+	_, err := fmt.Sscan(update.CallbackQuery.Data, &cb, &noteId)
 	if err != nil {
 		log.ERROR(fmt.Sprintf("%v error: %e", user.Id, err))
 	}
@@ -301,11 +302,23 @@ func cbShow(update tg.UpdateResult, bot *tg.TelegramBot) {
 
 	text := fmt.Sprintf("*Название:* %s \n*Ссылка:* %s \n*Описание:* %s \n*Теги:* %s",
 		note.Title, note.Url, note.Description, strings.Join(tagsString, " "))
-	keyboard, err := KeyboardList(&user)
-	if err != nil {
-		log.ERROR(fmt.Sprintf("%v keyboard error %e", user.Id, err))
-		return
+
+	var keyboard tg.InlineKeyboardMarkup
+	switch cb {
+	case CB_ROUTE_TAG_SHOW:
+		keyboard, err = KeyboardListByTag(&user, user.SearchTag)
+		if err != nil {
+			log.ERROR(fmt.Sprintf("%v keyboard error %e", user.Id, err))
+			return
+		}
+	default:
+		keyboard, err = KeyboardList(&user)
+		if err != nil {
+			log.ERROR(fmt.Sprintf("%v keyboard error %e", user.Id, err))
+			return
+		}
 	}
+
 	msg := bot.EditMessage(update.CallbackQuery.From.Id, update.CallbackQuery.Message.MessageId,
 		validateString(text),
 		MarkdownStyleOption,
@@ -682,7 +695,7 @@ func tags(update tg.UpdateResult, bot *tg.TelegramBot) {
 	// сортируй tags по алфавиту
 
 	keyboard, _ := KeyboardTags(tags)
-	msg := bot.SendMessage(update.Message.From.Id, fmt.Sprintf("Ваши теги:\n%s", strings.Join(tags, " ")), keyboard.Option())
+	msg := bot.SendMessage(update.Message.From.Id, "Ваши теги", keyboard.Option())
 	if !msg.Ok {
 		log.ERROR(msg.Description)
 		return

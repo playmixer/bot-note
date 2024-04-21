@@ -174,7 +174,7 @@ func KeyboardListByTag(user *User, tag string) (tg.InlineKeyboardMarkup, error) 
 	_end = max(_start, _end)
 
 	for _, note := range notes[_start:_end] {
-		btnShow := keyboard.Button(note.Title).SetCallbackData(fmt.Sprintf("%s %v", CB_ROUTE_SHOW, note.Id))
+		btnShow := keyboard.Button(note.Title).SetCallbackData(fmt.Sprintf("%s %v", CB_ROUTE_TAG_SHOW, note.Id))
 		keyboard.Add([]tg.InlineKeyboardButton{*btnShow})
 
 		btns := []tg.InlineKeyboardButton{}

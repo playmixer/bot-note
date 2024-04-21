@@ -24,6 +24,8 @@ tags - ваши теги
 */
 
 import (
+	"crypto/tls"
+	"net/http"
 	"os"
 	"strings"
 	"sync"
@@ -57,7 +59,10 @@ func main() {
 	err = godotenv.Load()
 	if err != nil {
 		log.ERROR("Error loading .env file")
-		return
+	}
+
+	if os.Getenv("TLS") == "0" {
+		http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	}
 
 	models.DB, err = models.Connect(os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"))
@@ -87,7 +92,8 @@ func main() {
 		}
 	})
 	bot.AddHandle(func(update tg.UpdateResult, bot *tg.TelegramBot) {
-		if strings.Contains(update.CallbackQuery.Data, CB_ROUTE_SHOW) {
+		if strings.Contains(update.CallbackQuery.Data, CB_ROUTE_SHOW) ||
+			strings.Contains(update.CallbackQuery.Data, CB_ROUTE_TAG_SHOW) {
 			cbShow(update, bot)
 		}
 	})
