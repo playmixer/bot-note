@@ -527,7 +527,15 @@ func cbEdit(update tg.UpdateResult, bot *tg.TelegramBot) {
 	for i, tag := range tags {
 		user.Note.Tags[i] = tag.Title
 	}
-
+	if note.Description == "" {
+		note.Description = "-"
+	}
+	if note.Url == "" {
+		note.Url = "-"
+	}
+	if note.Title == "" {
+		note.Title = "-"
+	}
 	text := fmt.Sprintf("*Название:* _%s_ \n*Ссылка:* _%s_ \n*Описание:* _%s_ \n*Теги:* _ %s _",
 		note.Title, note.Url, note.Description, strings.Join(user.Note.Tags, " "))
 	keyboard, err := KeyboardEditNote(&user)
