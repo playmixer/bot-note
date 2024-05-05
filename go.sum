@@ -4,5 +4,5 @@ github.com/lib/pq v1.10.9 h1:YXG7RB+JIjhP29X+OtkiDnYaXQwpS4JEWq7dtCCRUEw=
 github.com/lib/pq v1.10.9/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=
 github.com/playmixer/corvid/logger v0.0.0-20240413054452-a7832d5de104 h1:JTLnkhvrd1Vs/bNAbYEkSEHp6JktX9nchO25cYFXJik=
 github.com/playmixer/corvid/logger v0.0.0-20240413054452-a7832d5de104/go.mod h1:mXIgRlppBx7p2Sf2ZLOq31jZAmgtIPFhuhml1AJQCA4=
-github.com/playmixer/telegram-bot-api v1.0.6 h1:mZN9+oPxq2/DKuq1Req+DhMxji07+QEJ1kKAwg+nBVo=
-github.com/playmixer/telegram-bot-api v1.0.6/go.mod h1:nSKy505rjQOXCb6rUWtYje0v9Y4/lSzjFvbrTKNViVk=
+github.com/playmixer/telegram-bot-api/v2 v2.0.0 h1:5mDspASvp0mp7DlhCb8Ya3iO5vj4UUvym71agpJ/Qig=
+github.com/playmixer/telegram-bot-api/v2 v2.0.0/go.mod h1:VTivbrfBrn+ZWnIsGVHrmgnCoLKOW7LH27Tx8n33hgo=

@@ -25,6 +25,7 @@ tags - ваши теги
 
 import (
 	"crypto/tls"
+	"fmt"
 	"net/http"
 	"os"
 	"strings"
@@ -34,11 +35,11 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/playmixer/bot-note/models"
 	"github.com/playmixer/corvid/logger"
-	tg "github.com/playmixer/telegram-bot-api"
+	tg "github.com/playmixer/telegram-bot-api/v2"
 )
 
 var (
-	bot   tg.TelegramBot
+	bot   *tg.TelegramBot
 	log   *logger.Logger
 	store UserStore
 )
@@ -132,6 +133,7 @@ func main() {
 
 	bot.Timeout = time.Second
 	log.INFO("Start")
-	bot.Polling()
+	log.INFO(fmt.Sprintln(bot.WebhookServer(os.Getenv("ADDR"), os.Getenv("ROUTE"))))
+	// bot.Polling()
 	log.INFO("Exit")
 }
