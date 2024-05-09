@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/playmixer/bot-note/models"
-	tg "github.com/playmixer/telegram-bot-api/v2"
+	tg "github.com/playmixer/telegram-bot-api/v3"
 )
 
 func validateString(message string) string {

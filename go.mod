@@ -8,4 +8,4 @@ require (
 	github.com/playmixer/corvid/logger v0.0.0-20240413054452-a7832d5de104
 )
 
-require github.com/playmixer/telegram-bot-api/v2 v2.0.0
+require github.com/playmixer/telegram-bot-api/v3 v3.0.0

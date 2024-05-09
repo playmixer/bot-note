@@ -35,7 +35,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/playmixer/bot-note/models"
 	"github.com/playmixer/corvid/logger"
-	tg "github.com/playmixer/telegram-bot-api/v2"
+	tg "github.com/playmixer/telegram-bot-api/v3"
 )
 
 var (

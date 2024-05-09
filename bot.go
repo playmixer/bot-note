@@ -8,12 +8,7 @@ import (
 	"time"
 
 	"github.com/playmixer/bot-note/models"
-	tg "github.com/playmixer/telegram-bot-api/v2"
-)
-
-var (
-	MarkdownStyleOption = tg.MessageOption{Field: tg.MOFParseMode, Value: string(tg.MessageStyleMarkdownV2)}
-	HTMLStyleOption     = tg.MessageOption{Field: tg.MOFParseMode, Value: string(tg.MessageStyleHTML)}
+	tg "github.com/playmixer/telegram-bot-api/v3"
 )
 
 const (
@@ -77,7 +72,7 @@ func list(update tg.UpdateResult, bot *tg.TelegramBot) {
 	}()
 
 	options := []tg.MessageOption{
-		{Field: tg.MOFParseMode, Value: string(tg.MessageStyleMarkdownV2)},
+		tg.StyleMarkdown(tg.MessageStyleMarkdownV2),
 	}
 
 	text := validateString("Загружаю...")
@@ -99,7 +94,7 @@ func list(update tg.UpdateResult, bot *tg.TelegramBot) {
 		msg.Result.MessageId,
 		validateString(text),
 		keyboard.Option(),
-		MarkdownStyleOption,
+		tg.StyleMarkdown(tg.MessageStyleMarkdownV2),
 	)
 	if !msg.Ok {
 		log.ERROR("error send message", text)
@@ -321,7 +316,7 @@ func cbShow(update tg.UpdateResult, bot *tg.TelegramBot) {
 
 	msg := bot.EditMessage(update.CallbackQuery.From.Id, update.CallbackQuery.Message.MessageId,
 		validateString(text),
-		MarkdownStyleOption,
+		tg.StyleMarkdown(tg.MessageStyleMarkdownV2),
 		keyboard.Option(),
 	)
 	if !msg.Ok {
@@ -354,7 +349,7 @@ func cbChangePage(update tg.UpdateResult, bot *tg.TelegramBot) {
 	}
 	msg := bot.EditMessage(update.CallbackQuery.From.Id, update.CallbackQuery.Message.MessageId,
 		validateString(update.CallbackQuery.Message.Text),
-		tg.MessageOption{Field: tg.MOFParseMode, Value: string(tg.MessageStyleMarkdownV2)},
+		tg.StyleMarkdown(tg.MessageStyleMarkdownV2),
 		keyboard.Option(),
 	)
 	if !msg.Ok {
@@ -384,7 +379,7 @@ func cbList(update tg.UpdateResult, bot *tg.TelegramBot) {
 		update.CallbackQuery.From.Id,
 		validateString(text),
 		keyboard.Option(),
-		MarkdownStyleOption,
+		tg.StyleMarkdown(tg.MessageStyleMarkdownV2),
 	)
 	if !msg.Ok {
 		log.ERROR("error send message", text)
@@ -544,7 +539,9 @@ func cbEdit(update tg.UpdateResult, bot *tg.TelegramBot) {
 		return
 	}
 
-	msg := bot.SendMessage(update.CallbackQuery.From.Id, validateString(text), keyboard.Option(), MarkdownStyleOption)
+	msg := bot.SendMessage(update.CallbackQuery.From.Id, validateString(text),
+		keyboard.Option(),
+		tg.StyleMarkdown(tg.MessageStyleMarkdownV2))
 	if !msg.Ok {
 		log.ERROR(msg.Description)
 	}
@@ -765,7 +762,7 @@ func cbChangePageByTag(update tg.UpdateResult, bot *tg.TelegramBot) {
 	}
 	msg := bot.EditMessage(update.CallbackQuery.From.Id, update.CallbackQuery.Message.MessageId,
 		validateString(update.CallbackQuery.Message.Text),
-		MarkdownStyleOption,
+		tg.StyleMarkdown(tg.MessageStyleMarkdownV2),
 		keyboard.Option(),
 	)
 	if !msg.Ok {
